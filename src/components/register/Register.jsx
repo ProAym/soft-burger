@@ -1,104 +1,160 @@
-import React, { useState } from "react";
-
-import "./App.css";
-
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-import axios from "axios";
-
-import { addNewUserAsync } from "./redux/slices/usersSlice";
-
-import  burgerLogo from "./images/burger-logo.jpeg";
-import { useDispatch,useSelector } from "react-redux";
-
-import 'alertifyjs/build/css/alertify.css';
-import alertify from 'alertifyjs';
-
-import User from "./components/User";
-
-// backend tarafına post edilmesi için gerekli işlemler buraya yazılacak 
+import React, { useState } from 'react';
+import logo from '../../assets/backgroundyok.png'
 
 const Register = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName,setLastName]= useState('');
-    const [email, setEmail] = useState('');
-    const [birthDate,setBirthDate] = useState('');
-    //const [phoneNumber,setPhoneNumber]= useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
-    const [isSubmitted,setIsSubmitted]= useState(false);
-    const [error,setError]=useState(false);
-    
-    const dispatch= useDispatch();
-    const {users} = useSelector((state) => state.users);
-       
-   
-    const handleSubmit = (e) => {
-
-         e.preventDefault();    
-        // Form validation 
-        if (
-            firstName.trim() === '' ||
-            lastName.trim() === '' ||
-            email.trim() === '' ||
-            birthDate === '' ||
-          //  phoneNumber === '' ||
-            password === '' || password.length < 8 ||
-            confirmPassword === ''
-        ) {
-            setError(true);
-            alertify.error("Tüm alanların doldurulması zorunludur!")
-            return;
-        }
-    
-        if (password !== confirmPassword) {
-            alertify.error('Şifreler uyuşmuyor!');
-            console.log("Şifreler uyuşmuyor!")
-            return;
-        }
-
-        setIsSubmitted(true);
-        setError(false);
-
-           // Dispatch the async action
-           dispatch(addNewUserAsync({firstName,lastName,email,
-            password,birthDate
-        }));
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (acceptTerms) {
+      if (password === repeatPassword) {
+        // Here, you can perform actions like sending data to a server or updating state.
+        const formData = {
+          firstName,
+          lastName,
+          email,
+          address,
+          phoneNumber,
+          birthday,
+          password,
+        };
+        console.log('Submitted data:', formData);
+      } else {
+        console.log('Passwords do not match.');
+      }
+    } else {
+      console.log('Please accept the terms and conditions.');
     }
-    
-    return (
-        <div>
-    
-            <img src={burgerLogo} alt="logo" id="burger-logo"></img>
-            <div className="auth-form-container">
-      
-                <h2> <strong>Kayıt Ol</strong></h2>
-            <form className="register-form" onSubmit={handleSubmit}>
-                <label htmlFor="firstName">İsim</label>
-                <input value={firstName} name="firstName" onChange={(e) => setFirstName(e.target.value)} type="text" id="firstName" placeholder="İsim" required/>
-                <label htmlFor="lastName">Soyisim</label>
-                <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" placeholder="Soyisim" id="lastName" name="lastName" required />
-                <label htmlFor="email">E-Posta</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="E-Posta" id="email" name="email" required/>
-                <label htmlFor="dateOfBirth">Doğum Tarihi</label>
-                <input value={birthDate} onChange={(e) => setBirthDate(e.target.value)} type="date" id="dateOfBirth" name="dateOfBirth" required/>
-    
-                <label htmlFor="password">Şifre</label>
-                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" name="password" placeholder="Şifre" required/>
-                <label htmlFor="confirmPassword">Şifre Tekrarı</label>
-                <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" id="confirmPassword" name="confirmPassword" placeholder="Şifre Tekrarı" required/>
-                <button type="submit" className="login-register-btn" onClick={handleSubmit} ><strong>Kaydol</strong></button>
-            </form>
-            <button className="login-link-btn" onClick={()=> props.onFormSwitch('login')}>Zaten hesabın var mı? <strong>Giriş yap</strong> </button>
-            
-            </div>
+  };
 
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-6 bg-white rounded shadow-md">
+        <div className='flex items-center justify-center mb-6'>
+           <img src={logo} className='w-[100px] h-[100px] relative  ' />
         </div>
-  )
-}
+        <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="mb-4">
+              <label className="block text-gray-700 font-semibold mb-2" htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                className="w-full p-2 border rounded-md"
+                placeholder="Enter your first name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-semibold mb-2" htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                className="w-full p-2 border rounded-md"
+                placeholder="Enter your last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2" htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2" htmlFor="address">Address</label>
+            <input
+              type="text"
+              id="address"
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter your address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2" htmlFor="phoneNumber">Phone Number</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter your phone number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2" htmlFor="birthday">Birthday</label>
+            <input
+              type="date"
+              id="birthday"
+              className="w-full p-2 border rounded-md"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2" htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2" htmlFor="repeatPassword">Repeat Password</label>
+            <input
+              type="password"
+              id="repeatPassword"
+              className="w-full p-2 border rounded-md"
+              placeholder="Repeat your password"
+              value={repeatPassword}
+              onChange={(e) => setRepeatPassword(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="flex items-center text-gray-700">
+              <input
+                type="checkbox"
+                className="mr-2"
+                checked={acceptTerms}
+                onChange={() => setAcceptTerms(!acceptTerms)}
+              />
+              I accept the terms and conditions.
+            </label>
+          </div>
+          <button
+            type="submit"
+            className={`w-full bg-red-500 text-white p-2 rounded-md hover:bg-red-600 ${acceptTerms ? '' : 'opacity-50 cursor-not-allowed'}`}
+            disabled={!acceptTerms}
+            style={{ backgroundColor: '#EB1313' }}
+          >
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
-export default Register
-
-
-
+export default Register;

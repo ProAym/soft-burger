@@ -7,8 +7,8 @@ const SignUp = () => {
   return (
     <div>
       <Navbar />
-      <Register />
-      <Footer />
+     <Register />
+      
     </div>
   )
 }
