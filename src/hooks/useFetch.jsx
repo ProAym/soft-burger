@@ -1,14 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import foodMenus from '../components/Food Showcase/foodMenus';
 
 const useFetch = () => {
-    const [foods, setFoods] = useState([])
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('https://api.spoonacular.com/recipes/random')
-            .then(res => res.json())
-            .then(data => setFoods(data))
-    }, [foods])
-    return [foods, setFoods]
-}
+        // Simulating data fetching with a delay
+        setTimeout(() => {
+            const fetchedData = foodMenus
+            setData(fetchedData);
+            setLoading(false);
+        }, 1000); // Simulated delay of 1 second
+    }, []);
 
-export default useFetch
+    return [data, loading];
+};
+
+export default useFetch;

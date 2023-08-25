@@ -78,28 +78,8 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2" htmlFor="address">Address</label>
-            <input
-              type="text"
-              id="address"
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2" htmlFor="phoneNumber">Phone Number</label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your phone number"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-          </div>
+        
+          
           <div className="mb-4">
             <label className="block text-gray-700 font-semibold mb-2" htmlFor="birthday">Birthday</label>
             <input
